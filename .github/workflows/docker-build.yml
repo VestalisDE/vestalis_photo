@@ -100,14 +100,14 @@ jobs:
           file: ./frontend/docker/Dockerfile.prod
           push: true
           tags: |
-            ghcr.io/vestalisde/project_bootstrap-frontend:latest
-            ghcr.io/vestalisde/project_bootstrap-frontend:${{ steps.version.outputs.VERSION }}
-            ghcr.io/vestalisde/project_bootstrap-frontend:${{ steps.version.outputs.MINOR }}
-            ghcr.io/vestalisde/project_bootstrap-frontend:${{ steps.version.outputs.MAJOR }}
+            ghcr.io/vestalisde/vestalis_photo-frontend:latest
+            ghcr.io/vestalisde/vestalis_photo-frontend:${{ steps.version.outputs.VERSION }}
+            ghcr.io/vestalisde/vestalis_photo-frontend:${{ steps.version.outputs.MINOR }}
+            ghcr.io/vestalisde/vestalis_photo-frontend:${{ steps.version.outputs.MAJOR }}
           build-args: |
             APP_BUILD_VERSION=${{ steps.version.outputs.VERSION }}
           labels: |
-            org.opencontainers.image.source=https://github.com/VestalisDE/project_bootstrap-web
+            org.opencontainers.image.source=https://github.com/VestalisDE/vestalis_photo
             org.opencontainers.image.version=${{ steps.version.outputs.VERSION }}
 
       # DEVELOP BUILD
@@ -119,11 +119,11 @@ jobs:
           file: ./frontend/docker/Dockerfile.prod
           push: true
           tags: |
-            ghcr.io/vestalisde/project_bootstrap-frontend:dev
-            ghcr.io/vestalisde/project_bootstrap-frontend:dev-${{ steps.version.outputs.MINOR }}
+            ghcr.io/vestalisde/vestalis_photo-frontend:dev
+            ghcr.io/vestalisde/vestalis_photo-frontend:dev-${{ steps.version.outputs.MINOR }}
           build-args: |
             APP_BUILD_VERSION=${{ steps.version.outputs.VERSION }}
           labels: |
-            org.opencontainers.image.source=https://github.com/VestalisDE/project_bootstrap-web
+            org.opencontainers.image.source=https://github.com/VestalisDE/vestalis_photo
             org.opencontainers.image.version=${{ steps.version.outputs.VERSION }}
 
