@@ -1,0 +1,27 @@
+services:
+  ## CONTAINERS
+  frontend:
+    image: ghcr.io/vestalisde/project_bootstrap-frontend:latest
+    restart: unless-stopped
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      SERVER_NAME: ":8080"
+      DOCKER_LOG_LEVEL: "INFO"
+      LOG_ERROR_PATH: "php://stderr"
+      APP_DEFAULT_TIMEZONE: "${APP_DEFAULT_TIMEZONE:-Europe/Berlin}"
+    volumes:
+      - ./frontend/public:/app/frontend/public
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.project_bootstrap-frontend.rule=Host(`project_bootstrap.vestalis.de`)
+      - traefik.http.routers.project_bootstrap-frontend.entrypoints=websecure
+      - traefik.http.routers.project_bootstrap-frontend.tls.certresolver=lehttp
+      - traefik.http.services.project_bootstrap-frontend.loadbalancer.server.port=80
+
+networks:
+  proxy:
+    name: "proxy"
+    external: true

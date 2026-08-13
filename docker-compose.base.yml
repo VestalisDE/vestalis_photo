@@ -1,0 +1,33 @@
+services:
+
+  db:
+    image: mariadb:10.11
+    container_name: database
+    environment:
+      MYSQL_ROOT_PASSWORD: "foobar"
+      MYSQL_DATABASE: "project_bootstrap_web"
+      TZ: Europe/Berlin
+    volumes:
+      - ./db/mysql:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
+    networks:
+      - proxy
+    restart: always
+
+  mail:
+    image: 'axllent/mailpit:latest'
+    container_name: mail
+    restart: unless-stopped
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    ports:
+      - "8025:8025"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: "proxy"

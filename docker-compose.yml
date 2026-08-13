@@ -1,0 +1,55 @@
+services:
+  ## CONTAINERS
+  frontend:
+    user: "${UID}:${GID}"
+    build:
+      context: ./frontend
+      dockerfile: ./docker/Dockerfile
+      args:
+        - "PUID=${PUID}"
+        - "PGID=${PGID}"
+    working_dir: /app/frontend
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Berlin
+      DOCKER_LOG_LEVEL: "INFO"
+      LOG_ERROR_PATH: "php://stderr"
+      LOG_EDM_PATH: "php://stdout"
+      APP_BUILD_VERSION: "${APP_BUILD_VERSION:-0.0.dev}"
+      APP_DEFAULT_TIMEZONE: "${APP_DEFAULT_TIMEZONE:-Europe/Berlin}"
+    volumes:
+      - ./frontend:/app/frontend
+      - ./shared-domain:/app/shared-domain
+    networks:
+      - proxy
+    ports:
+      - "59998:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  template:
+    build:
+      context: ./template
+      dockerfile: ./docker/Dockerfile
+      args:
+        - "PUID=${PUID}"
+        - "PGID=${PGID}"
+    restart: unless-stopped
+    environment:
+      DOCKER_LOG_LEVEL: "INFO"
+      LOG_ERROR_PATH: "php://stderr"
+      LOG_EDM_PATH: "php://stdout"
+      APP_DEFAULT_TIMEZONE: "${APP_DEFAULT_TIMEZONE:-Europe/Berlin}"
+    volumes:
+      - ./template:/app
+    networks:
+      - proxy
+    ports:
+      - "59999:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  proxy:
+    name: "proxy"
+    external: true

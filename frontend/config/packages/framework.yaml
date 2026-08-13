@@ -1,0 +1,28 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+    trusted_proxies: ['127.0.0.1,REMOTE_ADDR']
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix', 'forwarded']
+    #csrf_protection: false
+
+    # Note that the session will be started ONLY if you read or write from it.
+    session:
+        enabled: true
+        name: 'PROJECT_BOOTSTRAP_SESSION'
+        # optional, aber oft sinnvoll explizit:
+        cookie_samesite: lax
+        cookie_secure: auto
+        # optional: trennt auch den Session-Dateipfad pro Projekt/Env
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+
+    #esi: true
+    #fragments: true
+
+    router:
+        default_uri: '%env(APP_URL)%'
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

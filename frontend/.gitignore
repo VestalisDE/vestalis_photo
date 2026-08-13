@@ -1,0 +1,26 @@
+###> phpunit/phpunit ###
+phpunit.xml
+.phpunit.cache/
+###< phpunit/phpunit ###
+
+###> symfony/framework-bundle ###
+.env.dev
+.env.dev.local
+.env.local
+.env.local.php
+.env.*.local
+public/bundles/
+var/
+vendor/
+uploads/
+###< symfony/framework-bundle ###
+
+###> symfony/secrets ###
+config/secrets/dev/dev.decrypt.private.php
+config/secrets/prod/
+###< symfony/secrets ###
+
+###> symfony/asset-mapper ###
+assets/vendor/
+public/assets/
+###< symfony/asset-mapper ###

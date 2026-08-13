@@ -1,0 +1,59 @@
+{% set icons = {
+    'danger': 'fa-regular fa-circle-xmark',
+    'warning': 'fa-solid fa-triangle-exclamation',
+    'success': 'fa-regular fa-circle-check'
+} %}
+{% set headlines = {
+    'danger': 'Fehler',
+    'warning': 'Achtung',
+    'success': 'Erfolg'
+} %}
+
+<div id="toastBackdrop" class="toast-backdrop transition-all"></div>
+{% for class, messages in {
+    'success': app.flashes('alert_success'),
+    'danger': app.flashes('alert_danger'),
+    'warning': app.flashes('alert_warning'),
+} %}
+    {% for message in messages %}
+        <div class="toast-container toast-center">
+            <div class="toast alertbox-toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto"><i class="{{ icons[class] }} me-2"></i> {{ headlines[class] }}</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                            aria-label="Schließen"></button>
+                </div>
+                <div class="toast-body">
+                    {{ message|nl2br }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<script type="application/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const toastBackdrop = document.getElementById('toastBackdrop');
+        const toastElements = document.querySelectorAll('.alertbox-toast');
+
+        toastElements.forEach(function (toastEl) {
+            const toast = new bootstrap.Toast(toastEl, {animation: true, autohide: false});
+
+            toastEl.addEventListener('shown.bs.toast', function () {
+                if (toastBackdrop) {
+                    toastBackdrop.style.display = 'block';
+                }
+            });
+
+            toastEl.addEventListener('hidden.bs.toast', function () {
+                if (toastBackdrop) {
+                    toastBackdrop.style.display = 'none';
+                }
+            });
+
+            toast.show();
+        });
+
+    });
+</script>

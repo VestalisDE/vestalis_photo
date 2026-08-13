@@ -1,0 +1,9 @@
+.idea
+*Zone.Identifier*
+*:Zone.Identifier*
+zone.identifier
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

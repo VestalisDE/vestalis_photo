@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+# See also https://symfony.com/doc/current/service_container/import.html
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    app.db.mysql.dsn: 'mysql:host=%env(MYSQL_DB_HOST)%;'
+    app.db.mysql.url: 'mysql://%env(MYSQL_DB_USER)%:%env(MYSQL_DB_PASSWORD)%@%env(MYSQL_DB_HOST)%'
+    app.db.mysql.db: '%env(MYSQL_DB_DATABASE)%'
+    app.build_version_fallback: '0.0.dev'
+    app.build_version: '%env(default:app.build_version_fallback:APP_BUILD_VERSION)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+
+    App\SharedDomain\Repository\:
+        resource: '../vendor/app/shared-domain/src/Repository/'
+        autowire: true
+        autoconfigure: true
+
+    App\SharedDomain\Service\:
+        resource: '../vendor/app/shared-domain/src/Service/'
+        autowire: true
+        autoconfigure: true
+
+    Symfony\Component\Clock\ClockInterface:
+        class: Symfony\Component\Clock\NativeClock
+        arguments:
+            $timezone: 'Europe/Berlin'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

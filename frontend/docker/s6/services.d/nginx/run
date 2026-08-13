@@ -1,0 +1,2 @@
+#!/usr/bin/with-contenv sh
+[ -z "$NOMAD_META_SYMFONY_CMD" ] && nginx -g "daemon off;"

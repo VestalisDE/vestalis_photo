@@ -1,0 +1,41 @@
+<!doctype html>
+<!-- v{{ app_build_version }} -->
+<html lang="{{ app.request.locale|default('de') }}" data-locale="{{ app.request.locale|default('de') }}"
+      dir="ltr" data-textdirection="ltr" data-assets-path="{{ asset('') }}" data-bs-theme="dark">
+<head>
+    <base href="/"/>
+    <meta charset="utf-8">
+    <title>{% block head_title %}Project Bootstrap Default Title{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    {# JavaScripts #}
+    {% block javascripts %}
+        {{ importmap('app') }}
+    {% endblock %}
+    {# Fonts #}
+    {# Core CSS #}
+    <link rel="stylesheet" href="{{ asset('libs/bootstrap-5.3.8-dist/css/bootstrap-grid.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/frontend.css') }}"/>
+
+    {# Icons #}
+    {# Vendors CSS #}
+    {% block page_stylesheet_modules %}{% endblock %}
+    {# Page CSS #}
+    {% block page_stylesheets %}{% endblock %}
+</head>
+<body id="top">
+<header>
+    Project Bootstrap
+</header>
+{% block body %}{% endblock %}
+{% include 'base/partials/alertbox.html.twig' %}
+
+<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}" defer></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}" defer></script>
+<script src="{{ asset('libs/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/i18n.js') }}" type="module"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+{# Page JS #}
+{% block page_javascripts %}{% endblock %}
+
+</body>
+</html>

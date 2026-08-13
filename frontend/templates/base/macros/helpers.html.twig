@@ -1,0 +1,7 @@
+{% macro form_error(element) %}
+    {% if element.vars.errors|length > 0 %}
+        {% for error in element.vars.errors %}
+            <div>{{ error.message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}

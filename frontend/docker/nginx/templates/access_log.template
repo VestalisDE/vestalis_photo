@@ -1,0 +1,57 @@
+## $time_iso8601 format - 2018-11-19T12:46:07+00:00
+map $time_iso8601 $date_year {
+    ~^(?P<substr>\d\d\d\d)                          $substr;
+}
+map $time_iso8601 $date_month {
+    ~^\d\d\d\d-(?P<substr>\d\d)                     $substr;
+}
+map $time_iso8601 $date_day {
+    ~^\d\d\d\d-\d\d-(?P<substr>\d\d)                $substr;
+}
+map $time_iso8601 $date_hour {
+    ~^\d\d\d\d-\d\d-\d\dT(?P<substr>\d\d)           $substr;
+}
+map $time_iso8601 $date_minute {
+    ~^\d\d\d\d-\d\d-\d\dT\d\d:(?P<substr>\d\d)      $substr;
+}
+map $time_iso8601 $date_second {
+    ~^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:(?P<substr>\d\d) $substr;
+}
+map "$date_year:$date_month:$date_day:$date_hour:$date_minute:$date_second" $pwc_date {
+    default $date_year$date_month$date_day$date_hour$date_minute$date_second;
+    "" "0";
+}
+map $http_x_forwarded_proto $forwarded_proto {
+  default $http_x_forwarded_proto;
+  "" "0";
+}
+
+map $request_uri $loggable {
+  / 0;
+  /ping-fpm 0;
+  /index.php 0;
+  default 1;
+}
+
+log_format json escape=json
+      '{ "local_ip":"$server_addr"'
+      ', "log_source":"nginx"'
+      ', "application_name":"${APPLICATION_NAME}"'
+      ', "server_name":"$host"'
+      ', "forwarded_for":["$http_x_forwarded_for"]'
+      ', "authenticated_user":"$upstream_http_x_bootstrap_user"'
+      ', "time": $pwc_date'
+      ', "req_first_line":{"method": "$request_method", "uri": "$request_uri", "protocol": "$server_protocol"}'
+      ', "status": $status'
+      ', "response_size": $body_bytes_sent'
+      ', "request_time": $request_time'
+      ', "upstream_connect_time": $upstream_connect_time'
+      ', "upstream_response_time": $upstream_response_time'
+      ', "referer": "$http_referer"' # todo: '-' or empty
+      ', "user_agent": "$http_user_agent"'
+      ', "forwarded_protocol": ["$forwarded_proto"]'
+      ', "headers": [{"key": "senderid", "value": "$hostname"}]'
+      '}'
+    ; # the host field is always left out
+
+access_log /var/log/nginx/access.log json if=$loggable;

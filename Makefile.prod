@@ -1,0 +1,151 @@
+MAKEFLAGS += --warn-undefined-variables
+PREFIX_CMD ?=
+ENV_FILE ?= docker/.env
+DOCKER_COMPOSE := $(PREFIX_CMD) docker compose --env-file $(ENV_FILE)
+
+export PUID ?= $(shell id -u)
+export PGID ?= $(shell id -g)
+
+################################################################
+## DEPLOYMENT
+################################################################
+update-version: pull-archives stop start
+.PHONY: update-version
+
+################################################################
+## ALL CONTAINERS WITH NAMES
+################################################################
+pull-archives: pull-archives-frontend
+.PHONY: pull-archives
+
+################################################################
+## ALL CONTAINERS
+################################################################
+start:
+	$(DOCKER_COMPOSE) up -d
+.PHONY: start
+
+restart:
+	$(DOCKER_COMPOSE) restart
+.PHONY: restart
+
+stop:
+	$(DOCKER_COMPOSE) stop
+.PHONY: stop
+
+down:
+	$(DOCKER_COMPOSE) down
+.PHONY: down
+
+logs: ## Read the logs from docker compose (the entire stack), and follow them (like tail -f)
+	$(DOCKER_COMPOSE) logs --follow
+.PHONY: logs
+
+################################################################
+## SPECIFIC CONTAINER
+################################################################
+shell-specific: ## Run a shell inside the development application container
+	@if [ -z "$(CONTAINER)" ]; then \
+		echo "Usage: make shell-specific CONTAINER=<service>"; \
+		exit 1; \
+	fi
+	$(DOCKER_COMPOSE) run --rm $(CONTAINER) bash
+.PHONY: shell-specific
+
+attach-specific: ## Starts an interactive shell inside the "app" service via "exec command" and with your local user id
+	@if [ -z "$(CONTAINER)" ]; then \
+		echo "Usage: make attach-specific CONTAINER=<service>"; \
+		exit 1; \
+	fi
+	$(DOCKER_COMPOSE) exec -u $(PUID):$(PGID) $(CONTAINER) bash
+.PHONY: attach-specific
+
+attach-root-specific: ## Starts an interactive shell inside the "app" service via "exec command" as root
+	@if [ -z "$(CONTAINER)" ]; then \
+		echo "Usage: make attach-root-specific CONTAINER=<service>"; \
+		exit 1; \
+	fi
+	$(DOCKER_COMPOSE) exec $(CONTAINER) bash
+.PHONY: attach-root-specific
+
+start-specific:
+	@if [ -z "$(CONTAINER)" ]; then \
+		echo "Usage: make start-specific CONTAINER=<service>"; \
+		exit 1; \
+	fi
+	$(DOCKER_COMPOSE) up -d $(CONTAINER)
+.PHONY: start-specific
+
+restart-specific:
+	@if [ -z "$(CONTAINER)" ]; then \
+		echo "Usage: make restart-specific CONTAINER=<service>"; \
+		exit 1; \
+	fi
+	$(DOCKER_COMPOSE) restart $(CONTAINER)
+.PHONY: restart-specific
+
+stop-specific:
+	@if [ -z "$(CONTAINER)" ]; then \
+		echo "Usage: make stop-specific CONTAINER=<service>"; \
+		exit 1; \
+	fi
+	$(DOCKER_COMPOSE) stop $(CONTAINER)
+.PHONY: stop-specific
+
+logs-specific: ## Read the logs from docker compose (specific container), and follow them (like tail -f)
+	@if [ -z "$(CONTAINER)" ]; then \
+		echo "Usage: make logs-specific CONTAINER=<service>"; \
+		exit 1; \
+	fi
+	$(DOCKER_COMPOSE) logs $(CONTAINER) --follow
+.PHONY: logs-specific
+
+pull-archives-specific: ## pulls container from GHCP
+	@if [ -z "$(CONTAINER)" ]; then \
+		echo "Usage: make pull-archives-specific CONTAINER=<service>"; \
+		exit 1; \
+	fi
+	docker compose pull $(CONTAINER)
+.PHONY: pull-archives-specific
+
+################################################################
+## FRONTEND
+################################################################
+shell-frontend: CONTAINER=frontend
+shell-frontend: shell-specific
+.PHONY: shell-frontend
+
+attach-frontend: CONTAINER=frontend
+attach-frontend: attach-specific
+.PHONY: attach-frontend
+
+attach-root-frontend: CONTAINER=frontend
+attach-root-frontend: attach-root-specific
+.PHONY: attach-root-frontend
+
+start-frontend: CONTAINER=frontend
+start-frontend: start-specific
+.PHONY: start-frontend
+
+restart-frontend: CONTAINER=frontend
+restart-frontend: restart-specific
+.PHONY: restart-frontend
+
+stop-frontend: CONTAINER=frontend
+stop-frontend: stop-specific
+.PHONY: stop-frontend
+
+logs-frontend: CONTAINER=frontend
+logs-frontend: logs-specific
+.PHONY: logs-frontend
+
+pull-archives-frontend: CONTAINER=frontend
+pull-archives-frontend: pull-archives-specific
+.PHONY: pull-archives-frontend
+
+################################################################
+## MISC
+################################################################
+help:
+	@awk 'BEGIN{FS=":.*## "}/^[a-zA-Z0-9_.-]+:.*## /{printf "\033[36m%-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+.PHONY: help
