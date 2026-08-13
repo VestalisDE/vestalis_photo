@@ -10,8 +10,6 @@ services:
       DOCKER_LOG_LEVEL: "INFO"
       LOG_ERROR_PATH: "php://stderr"
       APP_DEFAULT_TIMEZONE: "${APP_DEFAULT_TIMEZONE:-Europe/Berlin}"
-    volumes:
-      - ./frontend/public:/app/frontend/public
     networks:
       - proxy
     labels:
@@ -19,7 +17,7 @@ services:
       - traefik.http.routers.vestalis_photo-frontend.rule=Host(`photo.vestalis.de`)
       - traefik.http.routers.vestalis_photo-frontend.entrypoints=websecure
       - traefik.http.routers.vestalis_photo-frontend.tls.certresolver=lehttp
-      - traefik.http.services.vestalis_photo-frontend.loadbalancer.server.port=80
+      - traefik.http.services.vestalis_photo-frontend.loadbalancer.server.port=8080
 
 networks:
   proxy:
