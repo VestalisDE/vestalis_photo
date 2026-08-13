@@ -1,0 +1,118 @@
+html {
+    background-image:
+        url('../img/card/background.png'),
+        linear-gradient(178.6deg, rgb(95, 57, 31) 11.8%, rgb(0, 0, 0) 83.8%);
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+}
+
+body {
+    font-family: sans-serif;
+    text-align: justify;
+    padding-bottom: 1rem;
+}
+
+a,
+a:link,
+a:visited,
+a:active {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000000;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 1rem;
+    background: #000000;
+}
+
+li {
+    margin: 20px 0;
+}
+
+li h3 {
+    color: #ffffff;
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+}
+
+li h3.first {
+    margin-top: 0;
+}
+
+li a {
+    position: relative;
+    display: block;
+    padding: 20px;
+    color: #ffffff;
+    background: #000000;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #000000;
+}
+
+li a:hover {
+    background: #121212;
+    border: 1px solid #121212;
+    color: #ffffff;
+}
+
+li.img {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+
+    a {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+    }
+
+    img {
+        width: 100%;
+        border-radius: 10px;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.glass-card {
+    background: rgba(0, 0, 0, 0.25);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.imprint_link {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    font-weight: lighter;
+    color: #333333;
+    padding: 5px;
+    font-size: .75rem;
+}
+
+.imprint_link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}

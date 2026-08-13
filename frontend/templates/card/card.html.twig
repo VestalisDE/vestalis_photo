@@ -1,0 +1,99 @@
+<!doctype html>
+<!-- v{{ app_build_version }} -->
+{% trans_default_domain 'card' %}
+{% import 'base/macros/helpers.html.twig' as tpl_helpers %}
+<html lang="{{ app.request.locale|default('de') }}" data-locale="{{ app.request.locale|default('de') }}"
+      dir="ltr" data-textdirection="ltr" data-assets-path="{{ asset('') }}" data-bs-theme="dark">
+<head>
+    <base href="card/"/>
+    <meta charset="utf-8">
+    <title>Vestalis Concert Photography</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Die aktuellsten Fotos in der Übersicht"/>
+    <meta name="author" content="Vestalis"/>
+    <meta name="robots" content="index, follow"/>
+    <link rel="icon" href="/assets/images/favicon.png"/>
+    <link rel="canonical" href="https://photo.vestalis.de/card"/>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://photo.vestalis.de/"/>
+    <meta property="og:site_name" content="photo.vestalis.de"/>
+    <meta property="og:title" content="Vestalis Concert Photography"/>
+    <meta property="og:description" content="Die aktuellsten Fotos in der Übersicht"/>
+    <meta property="og:image" content="https://photo.vestalis.de/images/thumb.png"/>
+
+    <link rel="stylesheet" href="{{ asset('libs/bootstrap-5.3.8-dist/css/bootstrap-grid.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/card.css') }}"/>
+</head>
+<body id="top">
+<div style="max-width: 480px; margin:auto;">
+    <div style="text-align: center;">
+        <img src="{{ asset('img/card/logo.png') }}"/>
+    </div>
+    <ul class="glass-card">
+
+        <li><h3 class="first">Work In Progress</h3></li>
+        <li>
+            <a href="https://www.instagram.com/vestalis.de/" target="_blank">
+                Highfield Festival (24. - 26.08.2026), Gro&szlig;p&ouml;sna
+            </a>
+        </li>
+
+        <li><h3>Konzert Highlights</h3></li>
+        <li class="img">
+            <a href="https://www.instagram.com/vestalis.de/" target="_blank">
+                <img
+                    src="{{ asset('img/card/insta.png') }}" />
+            </a>
+        </li>
+
+        <li><h3>Festival Galerien</h3></li>
+        <li>
+            <a href="https://www.flickr.com/photos/198397449@N07/albums/72177720334956592/" target="_blank">
+                Wiesmoor Rockt Festival (18.07.2026), Wiesmoor
+            </a>
+        </li>
+        <li>
+            <a href="https://www.flickr.com/photos/198397449@N07/albums/72177720334937194/" target="_blank">
+                Free For All Festival (11.07.2026), Stapelmoor
+            </a>
+        </li>
+        <li>
+            <a href="https://www.flickr.com/photos/198397449@N07/albums/72177720334749787/" target="_blank">
+                Impericon Festival (26. + 27.06.2026), Leipzig
+            </a>
+        </li>
+
+        <li><h3>Social Media</h3></li>
+        <li><a href="https://vestalis.de/instagram" target="_blank"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+        <li><a href="https://vestalis.de/tiktok" target="_blank"><i class="fa-brands fa-tiktok"></i>TikTok</a></li>
+    </ul>
+
+</div>
+
+<a href="https://vestalis.de/imprint" rel="nofollow" class="imprint_link">Imprint / Impressum</a>
+
+<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}" defer></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}" defer></script>
+<script src="{{ asset('libs/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/i18n.js') }}" type="module"></script>
+<script src="{{ asset('js/card.js') }}"></script>
+{# Page JS // Matomo #}
+<script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function () {
+        var u = "//matomo.vestalis.de/";
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '4']);
+        var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+        g.async = true;
+        g.src = u + 'matomo.js';
+        s.parentNode.insertBefore(g, s);
+    })();
+</script>
+</body>
+</html>

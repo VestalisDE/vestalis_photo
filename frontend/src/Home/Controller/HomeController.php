@@ -14,6 +14,9 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home', options: ['expose' => true])]
     public function __invoke(): Response
     {
+        header("HTTP/1.1 302 Found");
+        header('Location: https://vestalis.de/instagram');
+        exit;
         return $this->render('home/home.html.twig', []);
     }
 
