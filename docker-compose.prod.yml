@@ -1,7 +1,7 @@
 services:
   ## CONTAINERS
   frontend:
-    image: ghcr.io/vestalisde/project_bootstrap-frontend:latest
+    image: ghcr.io/vestalisde/vestalis_photo-frontend:latest
     restart: unless-stopped
     environment:
       APP_ENV: prod
@@ -16,10 +16,10 @@ services:
       - proxy
     labels:
       - traefik.enable=true
-      - traefik.http.routers.project_bootstrap-frontend.rule=Host(`project_bootstrap.vestalis.de`)
-      - traefik.http.routers.project_bootstrap-frontend.entrypoints=websecure
-      - traefik.http.routers.project_bootstrap-frontend.tls.certresolver=lehttp
-      - traefik.http.services.project_bootstrap-frontend.loadbalancer.server.port=80
+      - traefik.http.routers.vestalis_photo-frontend.rule=Host(`photo.vestalis.de`)
+      - traefik.http.routers.vestalis_photo-frontend.entrypoints=websecure
+      - traefik.http.routers.vestalis_photo-frontend.tls.certresolver=lehttp
+      - traefik.http.services.vestalis_photo-frontend.loadbalancer.server.port=80
 
 networks:
   proxy:

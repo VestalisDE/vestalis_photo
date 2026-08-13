@@ -5,7 +5,7 @@ services:
     container_name: database
     environment:
       MYSQL_ROOT_PASSWORD: "foobar"
-      MYSQL_DATABASE: "project_bootstrap_web"
+      MYSQL_DATABASE: "vestalis_photo"
       TZ: Europe/Berlin
     volumes:
       - ./db/mysql:/var/lib/mysql:rw

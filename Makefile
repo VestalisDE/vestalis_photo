@@ -9,7 +9,7 @@ PREFIX_CMD ?=
 ENV_FILE ?= docker/.env
 DOCKER_COMPOSE := $(PREFIX_CMD) docker compose --env-file $(ENV_FILE)
 DOCKER_COMPOSE_BASE := $(PREFIX_CMD) docker compose -f docker-compose.base.yml
-STACK_NAME := project_bootstrap
+STACK_NAME := vestalis_photo
 
 export PUID ?= $(shell id -u)
 export PGID ?= $(shell id -g)

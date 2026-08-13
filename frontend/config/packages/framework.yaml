@@ -8,7 +8,7 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session:
         enabled: true
-        name: 'PROJECT_BOOTSTRAP_SESSION'
+        name: 'VSTLSPHT_SESSION'
         # optional, aber oft sinnvoll explizit:
         cookie_samesite: lax
         cookie_secure: auto
